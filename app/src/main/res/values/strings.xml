@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Puzzle2</string>
+    <string name="beginButton">CLICK ON ME TO BEGIN!</string>
+    <string name="logo">logo</string>
+    <string name="LearnProjectText">The LEARN IT, GIRL! project by AGNIESZKA BUREK</string>
+    <string name="NewGameButton">New game</string>
+    <string name="ResumeButton">Resume</string>
+    <string name="QuitButton">Quit</string>
+</resources>
