@@ -14,7 +14,10 @@
         android:id="@+id/button"
         android:layout_alignParentTop="true"
         android:layout_alignParentBottom="false"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:background="#000000"
+        android:textColor="#ffff"
+        />
 
     <ImageView
         android:layout_width="wrap_content"
@@ -23,7 +26,9 @@
         android:src="@mipmap/startscreen"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:contentDescription="@string/logo"/>
+        android:contentDescription="@string/logo"
+        android:layout_alignParentStart="false"
+        android:layout_below="@id/button"/>
 
     <TextView
         android:layout_width="fill_parent"
