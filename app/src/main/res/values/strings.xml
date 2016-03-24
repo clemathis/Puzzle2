@@ -6,4 +6,11 @@
     <string name="NewGameButton">New game</string>
     <string name="ResumeButton">Resume</string>
     <string name="QuitButton">Quit</string>
+    <string name="Nickname_newgame">NICKNAME:</string>
+    <string name="nickname_tip_newgame">Write your nickname</string>
+    <string name="number_puzzles_newgame">NUMBER OF PUZZLES:</string>
+    <string name="imagesource_newgame">SOURCE OF THE IMAGE:</string>
+    <string name="playbutton_newgame">BEGIN THE GAME!</string>
+    <string name="upload_button">UPLOAD PHOTO FROM GALLERY</string>
+    <string name="default_button">USE DEFAULT PHOTO</string>
 </resources>
