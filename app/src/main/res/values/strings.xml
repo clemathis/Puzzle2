@@ -12,5 +12,5 @@
     <string name="imagesource_newgame">SOURCE OF THE IMAGE:</string>
     <string name="playbutton_newgame">BEGIN THE GAME!</string>
     <string name="upload_button">UPLOAD PHOTO FROM GALLERY</string>
-    <string name="default_button">USE DEFAULT PHOTO</string>
+    <string name="default_button">USE A DEFAULT PHOTO</string>
 </resources>

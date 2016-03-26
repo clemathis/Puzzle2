@@ -14,7 +14,6 @@ public class MenuPage extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ImageView image = (ImageView) findViewById(R.id.menu_background);
         setContentView(R.layout.menu_page);
 
 
