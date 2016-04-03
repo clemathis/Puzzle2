@@ -29,6 +29,10 @@
             android:label="2-Puzzle"
             android:name=".Resume">
         </activity>
+        <activity
+            android:label="2-Puzzle"
+            android:name=".Playground">
+        </activity>
     </application>
 
 </manifest>
