@@ -46,6 +46,7 @@
         android:layout_gravity="center_horizontal"/>
 
     <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/radioGroup1"
         android:layout_height="wrap_content"
         android:layout_width="250dp"
         android:orientation="horizontal"
@@ -55,7 +56,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="8 "
+            android:text="9"
             android:id="@+id/button_1"
             android:checked="false"
             android:layout_weight="0.3"
@@ -65,7 +66,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="15"
+            android:text="16"
             android:id="@+id/button_2"
             android:checked="false"
             android:layout_weight="0.3"
@@ -75,7 +76,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="24"
+            android:text="25"
             android:id="@+id/button_3"
             android:checked="false"
             android:layout_weight="0.3"
@@ -97,29 +98,29 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal">
-    <Button
-        android:layout_width="125dp"
-        android:layout_height="70dp"
-        android:text="@string/upload_button"
-        android:id="@+id/upload_button"
-        android:textColor="#000000"
-        android:background="#ffffff"
-        android:layout_marginTop="15dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginLeft="10dp" />
+        <Button
+            android:layout_width="125dp"
+            android:layout_height="70dp"
+            android:text="@string/upload_button"
+            android:id="@+id/upload_button"
+            android:textColor="#000000"
+            android:background="#ffffff"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="10dp" />
 
-    <Button
-        android:layout_width="125dp"
-        android:layout_height="70dp"
-        android:text="@string/default_button"
-        android:id="@+id/default_button"
-        android:textColor="#000000"
-        android:background="#ffffff"
-        android:layout_alignTop="@+id/upload_button"
-        android:layout_toRightOf="@+id/upload_button"
-        android:layout_toEndOf="@+id/upload_button"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="10dp" />
+        <Button
+            android:layout_width="125dp"
+            android:layout_height="70dp"
+            android:text="@string/default_button"
+            android:id="@+id/default_button"
+            android:textColor="#000000"
+            android:background="#ffffff"
+            android:layout_alignTop="@+id/upload_button"
+            android:layout_toRightOf="@+id/upload_button"
+            android:layout_toEndOf="@+id/upload_button"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="10dp" />
     </RelativeLayout>
 
     <TextView
@@ -139,12 +140,12 @@
         android:layout_weight="1"
         android:gravity="center|bottom"
         android:orientation="vertical" >
-    <Button
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/playbutton_newgame"
-        android:id="@+id/newplay_button"
-        android:layout_alignParentBottom="true"
-        android:background="#000000" />
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/playbutton_newgame"
+            android:id="@+id/newplay_button"
+            android:layout_alignParentBottom="true"
+            android:background="#000000" />
     </LinearLayout>
 </LinearLayout>
