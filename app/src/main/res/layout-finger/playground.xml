@@ -14,10 +14,22 @@
         android:layout_marginTop="95dp"
         android:layout_gravity="center_horizontal"
         />
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/startgame_button"
+        android:text="@string/letsstart_button"
+        android:background="#000000" />
     <ImageView
         android:id="@+id/targetImage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp" />
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/finish_button"
+        android:text="@string/finishgame_button"
+        android:background="#000000" />
 
 </LinearLayout>

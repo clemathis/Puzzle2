@@ -2,16 +2,22 @@ package aga.puzzle2;
 
 
 import android.app.Activity;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
@@ -21,10 +27,12 @@ public class Playground extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.playground);
+        Button startgame = (Button) findViewById(R.id.startgame_button);
+        Button validate = (Button) findViewById(R.id.finish_button);
         // private String selectedImagePath;
         TextView nickname_tip = (TextView) findViewById(R.id.name);
         //This gets the elements from the New game page and sets it in the Playground page. Note: This will set the number of splits to 9 by default, if the user does not select the radio button.
-        nickname_tip.setText(getIntent().getStringExtra("name") + " " + getIntent().getStringExtra("numberOfSplits")  + " "+getIntent().getStringExtra("flag"));
+        nickname_tip.setText(getIntent().getStringExtra("name") + " " + getIntent().getStringExtra("numberOfSplits") + " " + getIntent().getStringExtra("flag"));
         if((getIntent().getStringExtra("flag")).equals("1")) {
 
 //            Uri targetUri = Uri.parse(getIntent().getStringExtra("imageURI"));
@@ -44,12 +52,57 @@ public class Playground extends Activity {
             imageView.setImageResource(R.drawable.default_photo);
         }
     }
-    public String getPath(Uri uri) {
-        String[] projection = { MediaStore.Images.Media.DATA };
-        Cursor cursor = managedQuery(uri, projection, null, null, null);
-        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-        cursor.moveToFirst();
-        return cursor.getString(column_index);
+
+    //Splitting the image
+
+    public void OnClick (View view){
+        int NumberOfSplits = Integer.parseInt((getIntent().getStringExtra("numberOfSplits").replaceAll("[\\D]", "")));
+        //Getting the source image to split
+        ImageView image = (ImageView) findViewById(R.id.targetImage);
+        //invoking method to split the source image
+        splitImage(image, NumberOfSplits);
+    }
+    private void splitImage(ImageView image, int NumberOfSplits) {
+
+        //For the number of rows and columns of the grid to be displayed
+        int rows,cols;
+        //For height and width of the small image chunks
+        int chunkHeight,chunkWidth;
+
+        //To store all the small image chunks in bitmap format in this list
+        //ArrayList<bitmap> chunkedImages = new ArrayList<bitmap>(NumberOfSplits);
+
+        //Getting the scaled bitmap of the source image
+        BitmapDrawable drawable = (BitmapDrawable) image.getDrawable();
+        Bitmap bitmap = drawable.getBitmap();
+        Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, bitmap.getWidth(), bitmap.getHeight(), true);
+
+        rows = cols = (int) Math.sqrt(NumberOfSplits);
+        chunkHeight = bitmap.getHeight()/rows;
+        chunkWidth = bitmap.getWidth()/cols;
+        //xCoord and yCoord are the pixel positions of the image chunks
+        int yCoord = 0;
+        for(int x=0; x<rows; x++){
+            int xCoord = 0;
+            for(int y=0; y<cols; y++){
+                chunkedImages.add(Bitmap.createBitmap(scaledBitmap, xCoord, yCoord, chunkWidth, chunkHeight));
+                xCoord += chunkWidth;
+            }
+            yCoord += chunkHeight;
+        }
+
+        /* Now the chunkedImages has all the small image chunks in the form of Bitmap class.
+         * You can do what ever you want with this chunkedImages as per your requirement.
+         * I pass it to a new Activity to show all small chunks in a grid for demo.
+         * You can get the source code of this activity from my Google Drive Account.
+         */
+
+        //Start a new activity to show these chunks into a grid
+        //Intent intent = new Intent(ImageActivity.this, ChunkedImageActivity.class);
+        //intent.putParcelableArrayListExtra("image chunks", chunkedImages);
+        //startActivity(intent);
+
+
     }
 
 

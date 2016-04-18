@@ -99,7 +99,7 @@ public class NewGame extends Activity {
                     Bitmap yourSelectedImage = BitmapFactory.decodeFile(filePath);
                     Drawable d = new BitmapDrawable(yourSelectedImage);
 
-                    data.putExtra("inageURI", yourSelectedImage);
+                    data.putExtra("imageURI", yourSelectedImage);
 
                 }
                 break;
