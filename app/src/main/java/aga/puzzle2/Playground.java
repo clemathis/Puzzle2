@@ -2,6 +2,7 @@ package aga.puzzle2;
 
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -13,10 +14,14 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.GridView;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -49,19 +54,13 @@ public class Playground extends Activity {
 //            }
 
         } else {
-            ImageView imageView = (ImageView) findViewById(R.id.targetImage);
-            imageView.setImageResource(R.drawable.default_photo);
+
+            int NumberOfSplits = Integer.parseInt((getIntent().getStringExtra("numberOfSplits").replaceAll("[\\D]", "")));
+            //Getting the source image to split
+            ImageView image = (ImageView) findViewById(R.id.targetImage);
+            //invoking method to split the source image
+            splitImage(image, NumberOfSplits);
         }
-    }
-
-    //Splitting the image
-
-    public void OnClick(View view) {
-        int NumberOfSplits = Integer.parseInt((getIntent().getStringExtra("numberOfSplits").replaceAll("[\\D]", "")));
-        //Getting the source image to split
-        ImageView image = (ImageView) findViewById(R.id.targetImage);
-        //invoking method to split the source image
-        splitImage(image, NumberOfSplits);
     }
 
     private void splitImage(ImageView image, int NumberOfSplits) {
@@ -100,16 +99,25 @@ public class Playground extends Activity {
          */
 
         //Start a new activity to show these chunks into a grid
-        Button startgame = (Button) findViewById(R.id.startgame_button);
-        startgame.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent intent = new Intent(Playground.this,Playground.class);
-                intent.putParcelableArrayListExtra("image chunks", chunkedImages);
-                //but how to display it in the place of Image View id targetImage?
-                startActivity(intent);
-            }
+//        Button startgame = (Button) findViewById(R.id.startgame_button);
+//        startgame.setOnClickListener(new View.OnClickListener() {
+//            public void onClick(View v) {
+//                Intent intent = new Intent(Playground.this,Playground.class);
+//                intent.putParcelableArrayListExtra("image chunks", chunkedImages);
+//                //but how to display it in the place of Image View id targetImage?
+//                startActivity(intent);
+//            }
+//
+//
+//        });
 
+        //This activity will display the small image chunks into a grid view
+        ArrayList<Bitmap> imageChunks = getIntent().getParcelableArrayListExtra("image chunks");
+        GridView grid = (GridView) findViewById(R.id.gridView);
+        grid.setAdapter(new ImageAdapter(this, imageChunks));
+        grid.setNumColumns((int) Math.sqrt(imageChunks.size()));
 
-        });
+    
     }
+
 }
