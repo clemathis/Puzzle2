@@ -15,4 +15,6 @@
     <string name="default_button">USE A DEFAULT PHOTO</string>
     <string name="letsstart_button">PRESS ME TO START!</string>
     <string name="finishgame_button">I THINK IT IS DONE</string>
+    <string name="hello">HELLO</string>
+    <string name="nicely_done">NICELY DONE</string>
 </resources>
