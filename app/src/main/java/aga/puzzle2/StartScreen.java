@@ -18,21 +18,17 @@ public class StartScreen extends AppCompatActivity {
         setContentView(R.layout.activity_start_screen);
         addListenerOnButton();
     }
-
     public void addListenerOnButton() {
         final Context context = this;
-        ImageView image = (ImageView) findViewById(R.id.logo);
-
         button = (Button)findViewById(R.id.button);
         button.setOnClickListener(new View.OnClickListener() {
+                                      @Override
+                                      public void onClick(View arg0) {
+                                          Intent intent = new Intent(context, MenuPage.class);
+                                          startActivity(intent);
 
-            @Override
-            public void onClick(View arg0) {
-
-                Intent intent = new Intent(context, MenuPage.class);
-                startActivity(intent);
-
-            }
+                                      }
+                                  }
+        );
     }
-
-        );}}
+}
