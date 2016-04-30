@@ -33,6 +33,10 @@
             android:label="2-Puzzle"
             android:name=".Playground">
         </activity>
+        <activity
+            android:label="2-Puzzle"
+            android:name=".FinishGame">
+        </activity>
     </application>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 

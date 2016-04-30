@@ -24,15 +24,6 @@ public class MenuPage extends Activity {
                                           }
         );
 
-        //[Resume] button
-        Button resume_button = (Button) findViewById(R.id.resume_button);
-        resume_button.setOnClickListener(new View.OnClickListener() {
-                                             public void onClick(View v) {
-                                                 Intent intent = new Intent(v.getContext(), Resume.class);
-                                                 startActivityForResult(intent, 0);
-                                             }
-                                         }
-        );
 
         //[Quit] button
         Button quit_button = (Button) findViewById(R.id.quit_button);

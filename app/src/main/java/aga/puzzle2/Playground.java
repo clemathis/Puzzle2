@@ -2,21 +2,27 @@ package aga.puzzle2;
 
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
+import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.ArrayAdapter;
+import android.os.Environment;
+import android.view.View;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
-
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class Playground extends Activity {
 
@@ -24,26 +30,41 @@ public class Playground extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.playground);
+
+        Button submit = (Button) findViewById(R.id.finish_button);
+        submit.setOnClickListener(new View.OnClickListener() {
+                                      public void onClick(View v) {
+                                          Intent intent = new Intent(v.getContext(), FinishGame.class);
+                                          startActivityForResult(intent, 0);
+                                      }
+                                  }
+        );
         // private String selectedImagePath;
         TextView nickname_tip = (TextView) findViewById(R.id.name);
         //This gets the elements from the New game page and sets it in the Playground page.
         // Note: This will set the number of splits to 9 by default, if the user does not select the radio button.
         nickname_tip.setText(getIntent().getStringExtra("name")+", welcome!");
         ArrayList<Bitmap> numberOfSplits = splitImage(Integer.parseInt(getIntent().getStringExtra("numberOfSplits")));
-        Bitmap lastImagePiece = numberOfSplits.get(numberOfSplits.size());
+        Bitmap lastImagePiece = numberOfSplits.get(numberOfSplits.size() - 1);
 
         FileOutputStream fileOutputStream = null;
         try {
 
             // create a File object for the parent directory
-            File lastPiece = new File("/sdcard/Capture/");
+            File path = Environment.getExternalStoragePublicDirectory(
+                    Environment.DIRECTORY_DOWNLOADS);
+            File lastPiece = new File(path, "lastPiece.jpg");
+            try {
+                // Make sure the Pictures directory exists.
+                path.mkdirs();
+                lastPiece.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             // have the object build the directory structure, if needed.
-            lastPiece.mkdirs();
 
             //Capture is folder name and file name with date and time
-            fileOutputStream = new FileOutputStream(String.format(
-                    "/sdcard/Capture/%d.jpg",
-                    System.currentTimeMillis()));
+            fileOutputStream = new FileOutputStream(lastPiece);
 
             // Here we Resize the Image ...
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -63,23 +84,16 @@ public class Playground extends Activity {
         }
 
         //Removing the last piece
-        numberOfSplits.remove(numberOfSplits.size());
+        //numberOfSplits.remove(numberOfSplits.size()-1);
 
-
-        /*
-	* 1. Bitmap lastImagePiece = numberOfSplits.get(numberOfSplits.size());
-	* 2. Remove the last piece : numberOfSplits.remove(numberOfSplits.seize());
-	* 3. Opening the FileOutputStream fos : file name : lastImage.jpeg
-	* 4. Writing the Bitmap lastImagePiece to fos
-	* 5. fos.flush();
-	* 6. fos.close();
-	* 7. ArrayList<Bitmap> shuffledImages = shuffle(numberOfSplits);
-	*/
-
+        //Shuffeling
+        Collections.shuffle(numberOfSplits);
 
         GridView grid = (GridView) findViewById(R.id.gridview);
         grid.setAdapter(new ImageAdapter(this, numberOfSplits));
         grid.setNumColumns((int) Math.sqrt(numberOfSplits.size()));
+
+        lastImagePiece.eraseColor(android.graphics.Color.BLACK);
 
     }
     private ArrayList<Bitmap> splitImage(int NumberOfSplits) {
@@ -111,6 +125,7 @@ public class Playground extends Activity {
             yCoord += chunkHeight;
         }
         return chunkedImages;
+
 
     }
 

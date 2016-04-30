@@ -16,37 +16,24 @@
         android:layout_height="60dp"
         android:text="@string/NewGameButton"
         android:id="@+id/newgame_button"
-        android:layout_alignStart="@+id/resume_button"
         android:layout_marginBottom="15dp"
-        android:layout_above="@+id/resume_button"
         android:background="#fff"
         android:layout_alignParentLeft="false"
         android:layout_alignParentBottom="false"
-        android:layout_alignLeft="@+id/resume_button"
         android:longClickable="false"
         android:textColor="#000000"
-        android:onClick="newgame"/>
+        android:onClick="newgame"
+        android:layout_centerInParent="true" />
 
-    <Button
-        android:layout_width="250dp"
-        android:layout_height="60dp"
-        android:text="@string/ResumeButton"
-        android:id="@+id/resume_button"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentTop="false"
-        android:background="#fff"
-        android:layout_alignParentLeft="false"
-        android:textColor="#000000" />
 
     <Button
         android:layout_width="250dp"
         android:layout_height="60dp"
         android:text="@string/QuitButton"
         android:id="@+id/quit_button"
-        android:layout_alignLeft="@+id/resume_button"
-        android:layout_alignStart="@+id/resume_button"
-        android:layout_below="@+id/resume_button"
+        android:layout_alignLeft="@+id/newgame_button"
+        android:layout_alignStart="@+id/newgame_button"
+        android:layout_below="@+id/newgame_button"
         android:layout_marginTop="15dp"
         android:background="#fff"
         android:textColor="#000000" />

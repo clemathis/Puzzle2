@@ -2,10 +2,9 @@
     <string name="app_name">2-Puzzle</string>
     <string name="beginButton">CLICK ME TO BEGIN!</string>
     <string name="logo">logo</string>
-    <string name="LearnProjectText">The LEARN IT, GIRL! project by AGNIESZKA BUREK</string>
-    <string name="NewGameButton">New game</string>
-    <string name="ResumeButton">Resume</string>
-    <string name="QuitButton">Quit</string>
+    <string name="LearnProjectText">The LEARN IT, GIRL! project by AGNIESZKA BUREK (mentor: DEEPTI DESHPANDE)</string>
+    <string name="NewGameButton">NEW GAME</string>
+    <string name="QuitButton">QUIT</string>
     <string name="Nickname_newgame">NICKNAME:</string>
     <string name="nickname_tip_newgame">Write your nickname</string>
     <string name="number_puzzles_newgame">NUMBER OF PUZZLES:</string>
@@ -18,4 +17,6 @@
     <string name="hello">HELLO</string>
     <string name="nicely_done">NICELY DONE</string>
     <string name="congrats">YOU\'VE FINISHED THE GAME!</string>
+    <string name="yours_score">YOURS SCORE IS...</string>
+    <string name="points">POINTS</string>
 </resources>
