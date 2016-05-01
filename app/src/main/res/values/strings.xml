@@ -15,8 +15,9 @@
     <string name="letsstart_button">START</string>
     <string name="finishgame_button">SUBMIT</string>
     <string name="hello">HELLO</string>
+    <string name="actual_score">ACTUAL SCORE: </string>
     <string name="nicely_done">NICELY DONE</string>
     <string name="congrats">YOU\'VE FINISHED THE GAME!</string>
-    <string name="yours_score">YOURS SCORE IS...</string>
+    <string name="yours_score">YOUR SCORE IS...</string>
     <string name="points">POINTS</string>
 </resources>

@@ -26,10 +26,17 @@ import java.util.List;
 
 public class Playground extends Activity {
 
+    int score = 500;
+    int moves = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.playground);
+
+        String number_of_score = Integer.toString(score);
+        TextView nr_of_score = (TextView) findViewById(R.id.nr_of_scores);
+        nr_of_score.setText(number_of_score);
 
         Button submit = (Button) findViewById(R.id.finish_button);
         submit.setOnClickListener(new View.OnClickListener() {
@@ -43,7 +50,8 @@ public class Playground extends Activity {
         TextView nickname_tip = (TextView) findViewById(R.id.name);
         //This gets the elements from the New game page and sets it in the Playground page.
         // Note: This will set the number of splits to 9 by default, if the user does not select the radio button.
-        nickname_tip.setText(getIntent().getStringExtra("name")+", welcome!");
+        nickname_tip.setText(getIntent().getStringExtra("name") + ", welcome!");
+
         ArrayList<Bitmap> numberOfSplits = splitImage(Integer.parseInt(getIntent().getStringExtra("numberOfSplits")));
         Bitmap lastImagePiece = numberOfSplits.get(numberOfSplits.size() - 1);
 
@@ -85,7 +93,7 @@ public class Playground extends Activity {
 
         //Removing the last piece
         //numberOfSplits.remove(numberOfSplits.size()-1);
-
+        lastImagePiece.eraseColor(android.graphics.Color.BLACK);
         //Shuffeling
         Collections.shuffle(numberOfSplits);
 
@@ -93,7 +101,6 @@ public class Playground extends Activity {
         grid.setAdapter(new ImageAdapter(this, numberOfSplits));
         grid.setNumColumns((int) Math.sqrt(numberOfSplits.size()));
 
-        lastImagePiece.eraseColor(android.graphics.Color.BLACK);
 
     }
     private ArrayList<Bitmap> splitImage(int NumberOfSplits) {
@@ -125,8 +132,17 @@ public class Playground extends Activity {
             yCoord += chunkHeight;
         }
         return chunkedImages;
-
-
     }
+
+    //public moves OnClick(grid){
+        //moves ++;
+        //return moves;
+    //}
+
+    public void calculateScore(int moves){
+        score = score -(moves *10);
+    }
+
+
 
 }
