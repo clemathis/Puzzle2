@@ -1,19 +1,13 @@
 package aga.puzzle2;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.ColorMatrix;
-import android.graphics.ColorMatrixColorFilter;
-import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
-import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -21,14 +15,10 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 
 public class Playground extends Activity {
 
@@ -39,18 +29,21 @@ public class Playground extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.playground);
 
+        String number_of_score = Integer.toString(SCORE);
+        final TextView nr_of_score = (TextView) findViewById(R.id.nr_of_scores);
+        nr_of_score.setText(number_of_score);
+
         // private String selectedImagePath;
         TextView nickname_tip = (TextView) findViewById(R.id.name);
         //This gets the elements from the New game page and sets it in the Playground page.
         // Note: This will set the number of splits to 9 by default, if the user does not select the radio button.
+
+
         final int splits = Integer.parseInt(getIntent().getStringExtra("numberOfSplits"));
         nickname_tip.setText(getIntent().getStringExtra("name")+", welcome!");
         final ArrayList<Bitmap> numberOfSplits = splitImage(splits);
         Bitmap lastImagePiece = numberOfSplits.get(numberOfSplits.size() - 1);
-        //numberOfSplits.remove(numberOfSplits.size()-1);
 
-        //Shuffeling
-        lastImagePiece.eraseColor(android.graphics.Color.BLACK);
         Bitmap.Config conf = Bitmap.Config.ARGB_8888; // see other conf types
         final Bitmap bmp = Bitmap.createBitmap(lastImagePiece.getWidth(), lastImagePiece.getHeight(), conf);
         numberOfSplits.set(numberOfSplits.size() - 1, bmp);
@@ -104,13 +97,26 @@ public class Playground extends Activity {
 
         Button submit = (Button) findViewById(R.id.finish_button);
         submit.setOnClickListener(new View.OnClickListener() {
+                                      @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR1)
                                       public void onClick(View v) {
                                           Intent intent = new Intent(v.getContext(), FinishGame.class);
-                                          ArrayList validationList = new ArrayList();
-                                          Collections.copy(numberOfSplits, validationList);
-                                          Collections.sort(validationList);
-                                          if (numberOfSplits.equals(validationList))
-                                          startActivityForResult(intent, 0);
+                                          intent.putExtra("final_score", nr_of_score.getText().toString());
+                                          ArrayList<Bitmap> validationList = splitImage(splits);;
+
+                                          boolean flag = true;
+                                          for(int i=0;i<numberOfSplits.size() -1 ;i++) {
+                                              if(validationList.get(i).sameAs(numberOfSplits.get(i)))
+                                                  continue;
+                                              else {
+                                                  flag = false;
+                                                  break;
+                                              }
+
+                                          }
+                                          if(flag == true) {
+                                              startActivityForResult(intent, 0);
+
+                                          }
                                           else {
                                               AlertDialog.Builder alert = new AlertDialog.Builder(Playground.this);
                                               alert.setTitle("Unfortunately!");
@@ -125,15 +131,11 @@ public class Playground extends Activity {
     }
     private ArrayList<Bitmap> splitImage(int NumberOfSplits) {
 
-        //For the number of rows and columns of the grid to be displayed
         int rows,cols;
-        //For height and width of the small image chunks
         int chunkHeight,chunkWidth;
 
-        //To store all the small image chunks in bitmap format in this list
         ArrayList<Bitmap> chunkedImages = new ArrayList<Bitmap>(NumberOfSplits);
 
-        //Getting the scaled bitmap of the source image
         BitmapDrawable drawable = (BitmapDrawable) getResources().getDrawable(R.drawable.default_photo);
         Bitmap bitmap = drawable.getBitmap();
         Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, bitmap.getWidth(), bitmap.getHeight(), true);
@@ -141,7 +143,6 @@ public class Playground extends Activity {
         rows = cols = (int) Math.sqrt(NumberOfSplits);
         chunkHeight = bitmap.getHeight()/rows;
         chunkWidth = bitmap.getWidth()/cols;
-        //xCoord and yCoord are the pixel positions of the image chunks
         int yCoord = 0;
         for(int x=0; x<rows; x++){
             int xCoord = 0;
@@ -152,8 +153,6 @@ public class Playground extends Activity {
             yCoord += chunkHeight;
         }
         return chunkedImages;
-
-
     }
 
     //    public moves OnClinck(grid){
@@ -164,6 +163,15 @@ public class Playground extends Activity {
         SCORE = SCORE -(MOVES *10);
     }
 
+    public boolean equals(Bitmap bitmap1, Bitmap bitmap2) {
+        ByteBuffer buffer1 = ByteBuffer.allocate(bitmap1.getHeight() * bitmap1.getRowBytes());
+        bitmap1.copyPixelsToBuffer(buffer1);
+
+        ByteBuffer buffer2 = ByteBuffer.allocate(bitmap2.getHeight() * bitmap2.getRowBytes());
+        bitmap2.copyPixelsToBuffer(buffer2);
+
+        return Arrays.equals(buffer1.array(), buffer2.array());
+    }
 
 
 }

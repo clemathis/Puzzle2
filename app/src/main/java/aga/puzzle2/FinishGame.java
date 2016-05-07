@@ -17,6 +17,8 @@ public class FinishGame extends Activity {
 //        Button validate = (Button) findViewById(R.id.finish_button);
         // private String selectedImagePath;
         TextView nicelydone = (TextView) findViewById(R.id.nicely_done);
+        TextView score = (TextView) findViewById(R.id.final_score);
+        score.setText(getIntent().getStringExtra("final_score"));
 
         //[New Game] button
         Button newgame_button = (Button) findViewById(R.id.newgame_button);
