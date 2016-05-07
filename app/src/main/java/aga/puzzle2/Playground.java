@@ -8,13 +8,14 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,23 +29,20 @@ public class Playground extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.playground);
-
+        final LinearLayout thisLayout = new LinearLayout(this);
         String number_of_score = Integer.toString(SCORE);
         final TextView nr_of_score = (TextView) findViewById(R.id.nr_of_scores);
         nr_of_score.setText(number_of_score);
-
         // private String selectedImagePath;
         TextView nickname_tip = (TextView) findViewById(R.id.name);
         //This gets the elements from the New game page and sets it in the Playground page.
         // Note: This will set the number of splits to 9 by default, if the user does not select the radio button.
-
-
         final int splits = Integer.parseInt(getIntent().getStringExtra("numberOfSplits"));
         nickname_tip.setText(getIntent().getStringExtra("name")+", welcome!");
         final ArrayList<Bitmap> numberOfSplits = splitImage(splits);
         Bitmap lastImagePiece = numberOfSplits.get(numberOfSplits.size() - 1);
 
-        Bitmap.Config conf = Bitmap.Config.ARGB_8888; // see other conf types
+        Bitmap.Config conf = Bitmap.Config.RGB_565; // see other conf types
         final Bitmap bmp = Bitmap.createBitmap(lastImagePiece.getWidth(), lastImagePiece.getHeight(), conf);
         numberOfSplits.set(numberOfSplits.size() - 1, bmp);
         Collections.shuffle(numberOfSplits);
@@ -58,40 +56,42 @@ public class Playground extends Activity {
         grid.setVerticalSpacing(0);
         grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
-            @Override
+            @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR1)
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
-                int up = position - 3;
-                int down = position + 3;
-                int left = position - 1;
-                int right = position + 1;
+
                 ImageAdapter ia = (ImageAdapter) parent.getAdapter();
                 ImageView imageView = (ImageView) v;
+                if ((position - 3) >= 0 && numberOfSplits.get((position - 3)).sameAs(bmp)) {
+                    Log.v("Executed ------->", "up");
+                    ImageView ivUp = (ImageView) parent.getChildAt(position - 3);
+                    ivUp.setImageBitmap(numberOfSplits.get(position));
+                    imageView.setImageBitmap(numberOfSplits.get(position-3));
+//                    ia.notifyDataSetChanged();
 
-                if (up >= 0 && ia.getItem(up).equals(bmp)) {
 
-                    //       ((ImageView) parent.getItemAtPosition(up)).setImageResource(SIA.getItemViewType(position));
-                    imageView.setImageResource(SIA.getItemViewType(up));
+                } else if ((position + 3) <= (splits - 1) && numberOfSplits.get((position + 3)).sameAs(bmp)) {
+                    Log.v("Executed ------->", "down");
+                    ImageView ivUp = (ImageView) parent.getChildAt(position + 3);
+                    ivUp.setImageBitmap(numberOfSplits.get(position));
+                    imageView.setImageBitmap(numberOfSplits.get(position + 3));
+//                    ia.notifyDataSetChanged();
 
-                } else if (down <= (splits - 1) && ia.getItem(down).equals(bmp)) {
+                } else if ((position - 1) >= 0 && numberOfSplits.get((position - 1)).sameAs(bmp)) {
+                    Log.v("Executed ------->", "left");
+                    ImageView ivUp = (ImageView) parent.getChildAt(position - 1);
+                    ivUp.setImageBitmap(numberOfSplits.get(position));
+                    imageView.setImageBitmap(numberOfSplits.get(position - 1));
+//                    ia.notifyDataSetChanged();
 
-//                    ((ImageView) parent.getItemAtPosition(down)).setImageResource(SIA.getItemViewType(position));
-                    imageView.setImageResource(SIA.getItemViewType(down));
-
-                } else if (left >= 0 && ia.getItem(left).equals(bmp)) {
-
-//                    ((ImageView) parent.getItemAtPosition(left)).setImageResource(SIA.getItemViewType(position));
-                    imageView.setImageResource(SIA.getItemViewType(left));
-
-                } else if (right <= (splits - 1) && ia.getItem(right).equals(bmp)) {
-
-//                    ((ImageView) parent.getItemAtPosition(right)).setImageResource(SIA.getItemViewType(position));
-                    imageView.setImageResource(SIA.getItemViewType(right));
+                } else if ((position + 1) <= (splits - 1) && numberOfSplits.get((position + 1)).sameAs(bmp)) {
+                    Log.v("Executed ------->","right");
+                    ImageView ivUp = (ImageView) parent.getChildAt(position + 1);
+                    ivUp.setImageBitmap(numberOfSplits.get(position));
+                    imageView.setImageBitmap(numberOfSplits.get(position + 1));
+//                    ia.notifyDataSetChanged();
 
                 }
-                Toast.makeText(getApplicationContext(),
-                        ((position + 1) + " " + (position - 1) + " " + position),
-                        Toast.LENGTH_LONG).show();
             }
         });
 
@@ -100,7 +100,6 @@ public class Playground extends Activity {
                                       @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR1)
                                       public void onClick(View v) {
                                           Intent intent = new Intent(v.getContext(), FinishGame.class);
-                                          intent.putExtra("final_score", nr_of_score.getText().toString());
                                           ArrayList<Bitmap> validationList = splitImage(splits);;
 
                                           boolean flag = true;
@@ -114,7 +113,9 @@ public class Playground extends Activity {
 
                                           }
                                           if(flag == true) {
+                                              intent.putExtra("final_score", nr_of_score.getText().toString());
                                               startActivityForResult(intent, 0);
+
 
                                           }
                                           else {
@@ -153,6 +154,8 @@ public class Playground extends Activity {
             yCoord += chunkHeight;
         }
         return chunkedImages;
+
+
     }
 
     //    public moves OnClinck(grid){
@@ -175,3 +178,5 @@ public class Playground extends Activity {
 
 
 }
+
+

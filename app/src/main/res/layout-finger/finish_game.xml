@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:layout_width="fill_parent"
     android:orientation="vertical"
+    android:screenOrientation="portrait"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <TextView
@@ -47,32 +48,32 @@
         android:layout_width="fill_parent"
         android:layout_height="match_parent">
 
-    <Button
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/NewGameButton"
-        android:id="@+id/newgame_button"
-        android:background="#000000"
-        android:longClickable="false"
-        android:textColor="#ffffff"
-        android:onClick="newgame"
-        android:layout_gravity="center_horizontal"
-        android:layout_above="@+id/quit_button"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="5dp" />
-    <Button
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/QuitButton"
-        android:id="@+id/quit_button"
-        android:background="#000000"
-        android:textColor="#fff"
-        android:layout_gravity="center_horizontal"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true" />
+        <Button
+            android:layout_width="250dp"
+            android:layout_height="60dp"
+            android:text="@string/NewGameButton"
+            android:id="@+id/newgame_button"
+            android:layout_marginBottom="15dp"
+            android:background="#fff"
+            android:layout_alignParentLeft="false"
+            android:layout_alignParentBottom="false"
+            android:longClickable="false"
+            android:textColor="#000000"
+            android:onClick="newgame"
+            android:layout_centerInParent="true" />
+
+
+        <Button
+            android:layout_width="250dp"
+            android:layout_height="60dp"
+            android:text="@string/QuitButton"
+            android:id="@+id/quit_button"
+            android:layout_alignLeft="@+id/newgame_button"
+            android:layout_alignStart="@+id/newgame_button"
+            android:layout_below="@+id/newgame_button"
+            android:layout_marginTop="15dp"
+            android:background="#fff"
+            android:textColor="#000000" />
     </RelativeLayout>
 
 </LinearLayout>
